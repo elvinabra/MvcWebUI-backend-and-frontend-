@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.EntityFramework;
 using MvcWebUI.Models;
+using Microsoft.Owin.Security;
 
 namespace MvcWebUI.Controllers
 {
@@ -47,15 +48,63 @@ namespace MvcWebUI.Controllers
                         UserManager.AddToRole(user.Id, "User");
 
                     }
-                    return RedirectToAction("Login", "Action");
+                    return RedirectToAction("Login", "Accaount");
 
-                    }
+                }
                 else
                 {
-                    ModelState.AddModelError("RegisterUserError", "Register Eror.");
+                    ModelState.AddModelError("RegisterUserError", "Register Error.");
                 }
             }
             return View(model);
+        }
+
+
+
+
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(Login model, string ReturnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = UserManager.Find(model.Username, model.Password);
+
+                if (user != null)
+                {
+                    var authManager = HttpContext.GetOwinContext().Authentication;
+                    var identityclaims = UserManager.CreateIdentity(user, "ApplicationCookie");
+                    var authProperties = new AuthenticationProperties();
+                    authProperties.IsPersistent = model.RememderMe;
+                    authManager.SignIn(authProperties, identityclaims);
+
+                    if (!String.IsNullOrEmpty(ReturnUrl))
+                    {
+                       return Redirect(ReturnUrl);
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("LoginUserEror", "No such user");
+                }
+            }
+            return View(model);
+        }
+
+
+
+        public ActionResult Logout()
+        {
+            var authManager = HttpContext.GetOwinContext().Authentication;
+            authManager.SignOut();
+            return RedirectToAction("Index","Home");
         }
     }
 }

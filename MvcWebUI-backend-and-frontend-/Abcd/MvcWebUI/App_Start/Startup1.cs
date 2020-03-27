@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Owin;
-using Owin;
 using Microsoft.Owin.Security.Cookies;
+using Owin;
+
 
 [assembly: OwinStartup(typeof(MvcWebUI.App_Start.Startup1))]
 
@@ -17,9 +18,9 @@ namespace MvcWebUI.App_Start
             app.UseCookieAuthentication(new CookieAuthenticationOptions()
             {
                 AuthenticationType = "ApplicationCookie",
-                LoginPath= new PathString("/Account/Login")
-                
-             });
+                LoginPath = new PathString("/Accaount/Login")
+
+            });
         }
     }
 }

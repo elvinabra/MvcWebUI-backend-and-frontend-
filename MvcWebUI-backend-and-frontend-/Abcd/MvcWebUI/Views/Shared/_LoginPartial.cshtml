@@ -1,0 +1,30 @@
+﻿
+
+
+    <ul class="navbar-nav  my-2 my-lg-0">
+        @if (Request.IsAuthenticated)
+        {
+       
+            <li class="nav-item active">
+                <a class="nav-link" href="/">@User.Identity.Name</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/Accaount/Logout">Logout</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item active">
+                <a class="nav-link" href="/Accaount/Login">Sign In</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/Accaount/Register">Register</a>
+            </li>
+
+        }
+
+
+
+
+
+    </ul>
