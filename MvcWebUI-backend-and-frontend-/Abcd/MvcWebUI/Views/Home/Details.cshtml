@@ -56,14 +56,22 @@
 
                 <div class="row mt-2">
                     <div class="col-md-12">
-                        <h4 id="product-price">$@Model.Price</h4>
+                        <h4 id="product-price">@Model.Price.ToString("0.## $")</h4>
 
                     </div>
                 </div>
 
                 <div class="row mt-2">
                     <div class="col-md-12">
-                        <button class="btn btn-success"><i class="fas fa-cart-plus"></i>Add to Cart</button>
+                        @using (Html.BeginForm("AddToCart","Cart"))
+                        {
+                            @Html.HiddenFor(i=>i.Id)
+                        <button type="submit" class="btn btn-success">
+                        <i class="fas fa-cart-plus"></i>
+                        Add to Cart
+                        </button>
+                        }
+
 
                     </div>
                 </div>

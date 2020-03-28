@@ -1,7 +1,12 @@
-/*#anim {
-    width: 100%;
+#anim {
+    width: 20%;
     margin: 0 auto;
-}*/
+    display:inline-block;
+}
+
+a:hover {
+    text-decoration: none;
+}
 
 .jumbotron{
     background-image: url(../img/bg.jpg);

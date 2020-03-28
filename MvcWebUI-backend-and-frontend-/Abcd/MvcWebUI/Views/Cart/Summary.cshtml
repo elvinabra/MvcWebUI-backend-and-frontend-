@@ -1,0 +1,19 @@
+﻿@model MvcWebUI.Models.Cart
+
+<style>
+.cart a{
+    color: white;
+    text-decoration:none;
+}
+
+
+</style>
+<ul class="navbar-nav  my-2 my-lg-0">
+    <li class="nav-item cart">
+        <a href="/Cart/Index">
+            <i class="fas fa-cart-plus"></i> <sub>(@Model.CartLines.Count)</sub>
+        </a>
+        
+        
+    </li>
+</ul>
