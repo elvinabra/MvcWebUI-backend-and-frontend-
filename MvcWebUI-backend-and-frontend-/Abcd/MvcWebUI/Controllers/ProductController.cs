@@ -14,7 +14,7 @@ namespace MvcWebUI.Controllers
     public class ProductController : Controller
     {
         private DataContext db = new DataContext();
-
+     
         // GET: Product
         public ActionResult Index()
         {

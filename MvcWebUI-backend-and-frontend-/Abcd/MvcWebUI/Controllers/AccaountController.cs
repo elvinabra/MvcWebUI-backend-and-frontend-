@@ -8,11 +8,13 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity.EntityFramework;
 using MvcWebUI.Models;
 using Microsoft.Owin.Security;
+using MvcWebUI.Entity;
 
 namespace MvcWebUI.Controllers
 {
     public class AccaountController : Controller
     {
+        private DataContext db = new DataContext();
         private UserManager<ApplicationUser> UserManager;
         private RoleManager<ApplicationRole> RoleManager;
         public AccaountController()
@@ -21,6 +23,46 @@ namespace MvcWebUI.Controllers
             UserManager = new UserManager<ApplicationUser>(userStore);
             var roleStore = new RoleStore<ApplicationRole>(new IdentityDataContext());
             RoleManager = new RoleManager<ApplicationRole>(roleStore);
+        }
+        [Authorize]
+        public ActionResult index()
+        { var username = User.Identity.Name;
+            var orders = db.Orders.Where(i => i.Username == username)
+                .Select(i => new UserOrderModel()
+                {
+                    Id= i.Id,
+                    OrderNumber=i.OrderNumber,
+                    OrderDate = i.OrderDate,
+                    OrderState = i.OrderState,
+                    Total = i.Total
+                }).OrderByDescending(i=>i.OrderDate).ToList();
+            return View(orders);
+        }
+        [Authorize]
+        public ActionResult Details(int id)
+        {
+            var entity = db.Orders.Where(i => i.Id == id).Select(i => new OrderDetailsModel()
+            {
+                OrderId = i.Id,
+                OrderNumber = i.OrderNumber,
+                OrderDate = i.OrderDate,
+                OrderState = i.OrderState,
+                Total = i.Total,
+                AdressTitle = i.AdressTitle,
+                Adress = i.Adress,
+                City = i.City,
+                District = i.District,
+                ZipCode = i.ZipCode,
+                OrderLines = i.OrderLines.Select(a => new OrderLineModel()
+                {
+                    ProductId = a.ProductId,
+                    ProductName = a.Product.Name,
+                    Image = a.Product.Image,
+                    Quantity = a.Quantity,
+                    Price = a.Price
+                }).ToList()
+            }).FirstOrDefault();
+            return View(entity);
         }
         // GET: Accaount
         public ActionResult Register()

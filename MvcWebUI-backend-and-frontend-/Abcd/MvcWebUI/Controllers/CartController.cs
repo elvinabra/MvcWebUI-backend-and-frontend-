@@ -86,9 +86,11 @@ namespace MvcWebUI.Controllers
         {
             var order = new Order();
             order.OrderNumber = "A"+(new Random()).Next(11111, 99999).ToString();
+            order.OrderState = EnumOrderState.Waiting;
             order.Total = cart.Total();
             order.OrderDate = DateTime.Now;
-            order.Username = entity.Username;
+            order.Username = User.Identity.Name;
+         
             order.AdressTitle = entity.AdressTitle;
             order.Adress = entity.Adress;
             order.City = entity.City;
