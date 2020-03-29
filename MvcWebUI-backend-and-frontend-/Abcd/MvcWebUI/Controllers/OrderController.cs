@@ -32,6 +32,7 @@ namespace MvcWebUI.Controllers
             var entity = db.Orders.Where(i => i.Id == id).Select(i => new OrderDetailsModel()
             {
                 OrderId = i.Id,
+                Username = i.Username,
                 OrderNumber = i.OrderNumber,
                 OrderDate = i.OrderDate,
                 OrderState = i.OrderState,
